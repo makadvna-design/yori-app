@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЁРӢ — Чат ва Тамос</title>
+  
+  <!-- FontAwesome барои иконаҳо -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- PeerJS барои занги аудио ва видео -->
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+
+  <!-- CSS Style -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Равзанаи Логин (Автентификатсия) -->
+    <div id="authView" class="view-screen">
+      <div class="auth-card">
+        <h2><i class="fa-solid fa-hand-holding-heart"></i> ЁРӢ</h2>
+        <p>Барои ворид шудан рақами телефонро ворид кунед</p>
+        
+        <div id="phoneStep">
+          <input type="tel" id="phoneNumberInput" placeholder="+992900000000">
+          <button id="sendCodeBtn" class="primary-btn">Гирифтани код</button>
+        </div>
+
+        <div id="codeStep" class="hidden">
+          <input type="text" id="smsCodeInput" placeholder="Коди 6-рақамӣ">
+          <button id="verifyCodeBtn" class="primary-btn">Тасдиқ ва воридшавӣ</button>
+        </div>
+
+        <div id="recaptcha-container"></div>
+      </div>
+    </div>
+
+    <!-- Равзанаи Асосӣ (Чат ва Занг) -->
+    <div id="mainView" class="view-screen hidden">
+      <!-- Панели чап: Рӯйхати чатҳо -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3>Чатҳо</h3>
+          <button id="logoutBtn" class="icon-btn" title="Баромад"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </div>
+
+        <div class="search-box">
+          <input type="tel" id="friendPhoneInput" placeholder="Рақами телефон (+992...)">
+          <button id="startChatBtn" class="icon-btn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+
+        <div id="chatList" class="chat-list">
+          <!-- Рӯйхати алоқаҳо дар ин ҷо тавлид мешавад -->
+        </div>
+      </div>
+
+      <!-- Панели рост: Майдони чат ва занг -->
+      <div class="chat-window">
+        <div id="noChatSelected" class="empty-state">
+          <i class="fa-solid fa-comments"></i>
+          <p>Барои оғози суҳбат чатро интихоб кунед ё рақами нав илова намоед</p>
+        </div>
+
+        <div id="activeChat" class="active-chat hidden">
+          <!-- Сарлавҳаи Чат -->
+          <div class="chat-header">
+            <div class="user-info">
+              <div class="avatar"><i class="fa-solid fa-user"></i></div>
+              <h4 id="activeFriendPhone">+992000000000</h4>
+            </div>
+            <div class="call-buttons">
+              <button id="audioCallBtn" class="call-btn" title="Занги аудиоӣ"><i class="fa-solid fa-phone"></i></button>
+              <button id="videoCallBtn" class="call-btn" title="Занги видеоӣ"><i class="fa-solid fa-video"></i></button>
+            </div>
+          </div>
+
+          <!-- Паёмҳо -->
+          <div id="messagesContainer" class="messages-container">
+            <!-- Паёмҳо дар ин ҷо мебароянд -->
+          </div>
+
+          <!-- Вуруди Паём -->
+          <div class="chat-input-area">
+            <input type="text" id="messageInput" placeholder="Паёмро нависед...">
+            <button id="sendMessageBtn" class="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модал/Равзанаи Занги Видеоӣ ва Аудиоӣ -->
+    <div id="callModal" class="call-modal hidden">
+      <div class="call-box">
+        <h3 id="callStatusTitle">Занг рафта истодааст...</h3>
+        <div class="video-container">
+          <video id="remoteVideo" autoplay playsinline></video>
+          <video id="localVideo" autoplay playsinline muted class="local-video"></video>
+        </div>
+        <div class="call-controls">
+          <button id="endCallBtn" class="end-call-btn"><i class="fa-solid fa-phone-slash"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK Modules -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
